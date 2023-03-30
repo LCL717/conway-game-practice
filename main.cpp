@@ -1,5 +1,4 @@
 #include <iostream>
-#include <opencv2/opencv.hpp>
 #include "GameOfLife.h"
 
 #define ROW       100
@@ -10,7 +9,7 @@ int main(int argc, char** argv)
 {
   srand(time(nullptr));
   
-  int interval = 500;
+  int interval = 50;
   int snapshot = 100;
   void (GameOfLife::*godFunc)() = &GameOfLife::godFuncReverse;
   

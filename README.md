@@ -16,6 +16,6 @@ There are three god functions, controlled by the third command-line argument.
 
 ```
 make
-./main [wait_time] [snap_shot_frame] [god_func_mode]
+./gameoflife [wait_time] [snap_shot_frame] [god_func_mode]
 ```
 

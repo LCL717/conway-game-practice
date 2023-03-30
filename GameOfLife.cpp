@@ -109,9 +109,7 @@ void GameOfLife::godFuncCreator() {
 void GameOfLife::godFuncReverse() {
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_ - i; j++) {
-      if(cells_[i][j] == false) cells_[cols_ - 1 - j][rows_ - 1 - i] = false;
-      if(cells_[i][j] == true) cells_[cols_- 1 - j][rows_ - 1 - i] = true;
+      cells_[cols_- 1 - j][rows_ - 1 - i] = cells_[i][j];
     }
   }
-
 }
