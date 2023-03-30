@@ -1,5 +1,6 @@
 main
 .vscode
 .DS_Store
-game_of_life.avi
-snapshot.jpg
+*.avi
+*.jpg
+*.o
