@@ -6,7 +6,7 @@ OPENCV_LDLIBS = $(shell pkg-config --libs opencv4)
 SRCS = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
-TARGET = main
+TARGET = gameoflife
 
 all: $(TARGET)
 
@@ -18,4 +18,3 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
-	find . -name '*.o' -delete
