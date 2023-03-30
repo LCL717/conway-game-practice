@@ -28,7 +28,7 @@ int main(int argc, char** argv)
   }
 
   GameOfLife game(ROW, COL, interval);
-  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 2.0, cv::Size(ROW * CELL_SIZE, COL * CELL_SIZE), false);
+  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(ROW * CELL_SIZE, COL * CELL_SIZE), false);
   
   for (int i = 0; i < 150; i++) {   
     cv::Mat frame(ROW * CELL_SIZE, COL * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
