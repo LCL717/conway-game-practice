@@ -2,6 +2,9 @@
 #include <opencv2/opencv.hpp>
 #include "GameOfLife.h"
 
+#define ROW       100
+#define COL       100
+#define CELL_SIZE 10
 
 int main(int argc, char** argv)
 {
@@ -9,8 +12,7 @@ int main(int argc, char** argv)
   
   int interval = 500;
   int snapshot = 100;
-  void (GameOfLife::*godFunc)();
-  godFunc = &GameOfLife::godFuncReverse;
+  void (GameOfLife::*godFunc)() = &GameOfLife::godFuncReverse;
   
   if(argc == 4) {
     interval = stoi(argv[1]);
@@ -26,13 +28,11 @@ int main(int argc, char** argv)
     }
   }
 
-  GameOfLife game(100, 100, interval);
-  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 2.0, cv::Size(1000, 1000), false);
+  GameOfLife game(ROW, COL, interval);
+  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 2.0, cv::Size(ROW * CELL_SIZE, COL * CELL_SIZE), false);
   
-  
-
   for (int i = 0; i < 150; i++) {   
-    cv::Mat frame(100 * 10, 100 * 10, CV_8UC1, cv::Scalar(0)); 
+    cv::Mat frame(ROW * CELL_SIZE, COL * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
     (game.*godFunc)();
     game.draw(frame);
     video.write(frame); 

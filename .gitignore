@@ -1,6 +1,4 @@
 gameoflife
 .vscode
 .DS_Store
-*.avi
-*.jpg
 *.o
