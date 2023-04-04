@@ -1,21 +1,32 @@
 #include <iostream>
 #include "GameOfLife.h"
 
-#define ROW       100
-#define COL       100
+#define ROW       256
+#define COL       256
 #define CELL_SIZE 10
+
+/* Disable god function */
+//#define EN_GOD
 
 int main(int argc, char** argv)
 {
-  srand(time(nullptr));
+  /* Disable random */
+  //srand(time(nullptr));
   
   int interval = 50;
   int snapshot = 100;
+  int length = 256;
+
+#ifdef EN_GOD
   void (GameOfLife::*godFunc)() = &GameOfLife::godFuncReverse;
-  
+  if(argc == 5) {
+#else
   if(argc == 4) {
+#endif
     interval = stoi(argv[1]);
     snapshot = stoi(argv[2]);
+    length = stoi(argv[3]);
+#ifdef EN_GOD
     if(stoi(argv[3]) == 1) {
       godFunc = &GameOfLife::godFuncThanos;
     }
@@ -25,14 +36,17 @@ int main(int argc, char** argv)
     else {
       godFunc = &GameOfLife::godFuncReverse;
     }
+#endif
   }
 
-  GameOfLife game(ROW, COL, interval);
-  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(ROW * CELL_SIZE, COL * CELL_SIZE), false);
+  GameOfLife game(length, length, interval);
+  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(length * CELL_SIZE, length * CELL_SIZE), false);
   
   for (int i = 0; i < 150; i++) {   
-    cv::Mat frame(ROW * CELL_SIZE, COL * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
+    cv::Mat frame(length * CELL_SIZE, length * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
+#ifdef EN_GOD
     (game.*godFunc)();
+#endif
     game.draw(frame);
     video.write(frame); 
 
