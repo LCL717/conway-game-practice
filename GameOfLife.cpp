@@ -1,11 +1,13 @@
 #include "GameOfLife.h"
 
-GameOfLife::GameOfLife(int rows, int cols, int interval)
-    : rows_(rows), cols_(cols), interval_(interval)
+GameOfLife::GameOfLife(int rows, int cols)
+    : rows_(rows), cols_(cols)
 {
   cells_ = new bool*[rows_];
+  newCells_ = new bool*[rows_];
   for (int i = 0; i < rows_; i++) {
     cells_[i] = new bool[cols_];
+    newCells_[i] = new bool[cols_];
     for (int j = 0; j < cols_; j++) {
       cells_[i][j] = (rand() % 2 == 0);
     }
@@ -23,7 +25,7 @@ int GameOfLife::countNeighbours(int row, int col)
   for (int i = rowStart; i <= rowEnd; i++) {
     for (int j = colStart; j <= colEnd; j++) {
       if (i == row && j == col) continue;
-        if (cells_[i][j]) count++;
+      count += cells_[i][j];
     }
   }
 
@@ -32,54 +34,33 @@ int GameOfLife::countNeighbours(int row, int col)
 
 bool GameOfLife::updateCells(int row, int col, int count)
 {
-  if (cells_[row][col]) {
-    if (count == 2 || count == 3) {
-      return true;
-    } 
-    else {
-      return false;
-    }
-  }
-  else {
-    if (count == 3) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
+  return (count == 3 || (cells_[row][col] && count == 2));
 }
 
 void GameOfLife::update()
 {
-  bool** newCells = new bool*[rows_];
   for (int i = 0; i < rows_; i++) {
-    newCells[i] = new bool[cols_];
     for (int j = 0; j < cols_; j++) {
       int count = countNeighbours(i, j);
-      newCells[i][j] = updateCells(i, j, count);
+      newCells_[i][j] = updateCells(i, j, count);
     }
   }
-
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      cells_[i][j] = newCells[i][j];
-    }
-      delete[] newCells[i];
-  }
-  delete[] newCells;
+  // swap pointer of cells_ and newcells_
+  std::swap(cells_, newCells_);
 }
 
 void GameOfLife::draw(cv::Mat image)
 {
+  cv::Mat mask(image.rows, image.cols, CV_8UC1, cv::Scalar(0));
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
       if (cells_[i][j]) {
         cv::Rect rect(j * cellSize_, i * cellSize_, cellSize_, cellSize_);
-        cv::rectangle(image, rect, cv::Scalar(255), -1);
+        mask(rect).setTo(cv::Scalar(255));
       }
     }
   }
+  image.setTo(cv::Scalar(255, 255, 255), mask);
   //cv::imshow("Game of Life", image);
   //cv::waitKey(interval_);
 }

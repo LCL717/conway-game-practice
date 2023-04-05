@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 #endif
   }
 
-  GameOfLife game(length, length, interval);
+  GameOfLife game(length, length);
   cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(length * CELL_SIZE, length * CELL_SIZE), false);
   // start
   auto start = std::chrono::high_resolution_clock::now();
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 #ifdef EN_GOD
     (game.*godFunc)();
 #endif
-    game.draw(frame);
+    //game.draw(frame);
     video.write(frame); 
 
     if(i == snapshot - 1) {

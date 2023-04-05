@@ -7,7 +7,7 @@
 
 class GameOfLife {
 public:
-  GameOfLife(int rows, int cols, int interval);
+  GameOfLife(int rows, int cols);
   void update();
   void draw(cv::Mat image);
   void godFuncThanos();
@@ -18,8 +18,8 @@ private:
   int rows_;
   int cols_;
   bool** cells_;
+  bool** newCells_;
   int cellSize_ = 1;
-  int interval_ = 500;
   int countNeighbours(int row, int col);
   bool updateCells(int row, int col, int count);
 };
