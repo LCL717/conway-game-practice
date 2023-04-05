@@ -15,10 +15,10 @@ GameOfLife::GameOfLife(int rows, int cols, int interval)
 int GameOfLife::countNeighbours(int row, int col)
 {
   int count = 0;
-  int rowStart = max(0, row - 1);
-  int rowEnd = min(rows_ - 1, row + 1);
-  int colStart = max(0, col - 1);
-  int colEnd = min(cols_ - 1, col + 1);
+  int rowStart = std::max(0, row - 1);
+  int rowEnd = std::min(rows_ - 1, row + 1);
+  int colStart = std::max(0, col - 1);
+  int colEnd = std::min(cols_ - 1, col + 1);
 
   for (int i = rowStart; i <= rowEnd; i++) {
     for (int j = colStart; j <= colEnd; j++) {

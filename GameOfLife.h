@@ -3,7 +3,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-using namespace std;
+
 
 class GameOfLife {
 public:
@@ -18,7 +18,7 @@ private:
   int rows_;
   int cols_;
   bool** cells_;
-  int cellSize_ = 10;
+  int cellSize_ = 1;
   int interval_ = 500;
   int countNeighbours(int row, int col);
   bool updateCells(int row, int col, int count);
