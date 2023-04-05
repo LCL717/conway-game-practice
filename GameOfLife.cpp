@@ -80,8 +80,8 @@ void GameOfLife::draw(cv::Mat image)
       }
     }
   }
-  cv::imshow("Game of Life", image);
-  cv::waitKey(interval_);
+  //cv::imshow("Game of Life", image);
+  //cv::waitKey(interval_);
 }
 
 void GameOfLife::godFuncThanos() {
