@@ -11,7 +11,7 @@
 
 int main(int argc, char** argv)
 {
-  /* Disable random */
+  /* Disable random start */
   //srand(time(nullptr));
   
   int interval = 50;
@@ -41,19 +41,19 @@ int main(int argc, char** argv)
   }
 
   GameOfLife game(length, length);
-  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(length * CELL_SIZE, length * CELL_SIZE), false);
+  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(2048, 2048), false);
   // start
   auto start = std::chrono::high_resolution_clock::now();
 
-  for (int i = 0; i < 150; i++) {   
-    cv::Mat frame(length * CELL_SIZE, length * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
+  for (int i = 0; i < 1000; i++) {   
+    cv::Mat frame(2048, 2048, CV_8UC1, cv::Scalar(0)); 
 #ifdef EN_GOD
     (game.*godFunc)();
 #endif
-    //game.draw(frame);
+    game.draw(frame);
     video.write(frame); 
 
-    if(i == snapshot - 1) {
+    if(i == snapshot) {
       cv::imwrite("snapshot.bmp", frame);
     }
     game.update();

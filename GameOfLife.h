@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <random>
 
-
+#define IMAGE_SIZE 2048
+//#define EN_NEWRAND
 
 class GameOfLife {
 public:

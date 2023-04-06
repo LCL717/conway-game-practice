@@ -1,15 +1,28 @@
 #include "GameOfLife.h"
+#include <thread>
+#include <random>
 
 GameOfLife::GameOfLife(int rows, int cols)
     : rows_(rows), cols_(cols)
 {
   cells_ = new bool*[rows_];
   newCells_ = new bool*[rows_];
+  cellSize_ = IMAGE_SIZE / rows;
+
+#ifdef EN_NEWRAND
+  std::random_device rd; 
+  std::mt19937 gen(rd());
+  std::bernoulli_distribution dis(0.5);
+#endif
   for (int i = 0; i < rows_; i++) {
     cells_[i] = new bool[cols_];
     newCells_[i] = new bool[cols_];
     for (int j = 0; j < cols_; j++) {
+#ifdef EN_NEWRAND
+      cells_[i][j] = dis(gen);
+#else
       cells_[i][j] = (rand() % 2 == 0);
+#endif
     }
   }
 }
@@ -52,17 +65,31 @@ void GameOfLife::update()
 void GameOfLife::draw(cv::Mat image)
 {
   cv::Mat mask(image.rows, image.cols, CV_8UC1, cv::Scalar(0));
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      if (cells_[i][j]) {
-        cv::Rect rect(j * cellSize_, i * cellSize_, cellSize_, cellSize_);
-        mask(rect).setTo(cv::Scalar(255));
+  std::vector<std::thread> threads;
+  // thread number
+  int numThreads = 4;
+  int rowsPerThread = rows_ / numThreads;
+
+  for (int t = 0; t < numThreads; t++) {
+    threads.push_back(std::thread([=] {
+      int startRow = t * rowsPerThread;
+      int endRow = (t == numThreads - 1) ? rows_ : startRow + rowsPerThread;
+      for (int i = startRow; i < endRow; i++) {
+        for (int j = 0; j < cols_; j++) {
+          if (cells_[i][j]) {
+            cv::Rect rect(j * cellSize_, i * cellSize_, cellSize_, cellSize_);
+            mask(rect).setTo(cv::Scalar(255));
+          }
+        }
       }
-    }
+    }));
   }
+
+  for (auto& thread : threads) {
+    thread.join();
+  }
+
   image.setTo(cv::Scalar(255, 255, 255), mask);
-  //cv::imshow("Game of Life", image);
-  //cv::waitKey(interval_);
 }
 
 void GameOfLife::godFuncThanos() {
