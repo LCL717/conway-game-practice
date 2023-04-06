@@ -4,6 +4,7 @@ GameOfLife::GameOfLife(int rows, int cols, int interval)
     : rows_(rows), cols_(cols), interval_(interval)
 {
   cells_ = new bool*[rows_];
+  cellSize_ = 2048 / cols;
   for (int i = 0; i < rows_; i++) {
     cells_[i] = new bool[cols_];
     for (int j = 0; j < cols_; j++) {

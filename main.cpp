@@ -5,6 +5,7 @@
 #define ROW       256
 #define COL       256
 #define CELL_SIZE 1
+#define BOARD_SIZE 2048
 
 /* Disable god function */
 //#define EN_GOD
@@ -41,19 +42,19 @@ int main(int argc, char** argv)
   }
 
   GameOfLife game(length, length, interval);
-  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(length * CELL_SIZE, length * CELL_SIZE), false);
+  cv::VideoWriter video("game_of_life.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 1000 / interval , cv::Size(BOARD_SIZE, BOARD_SIZE), false);
   // start
   auto start = std::chrono::high_resolution_clock::now();
 
-  for (int i = 0; i < 150; i++) {   
-    cv::Mat frame(length * CELL_SIZE, length * CELL_SIZE, CV_8UC1, cv::Scalar(0)); 
+  for (int i = 0; i < 1000; i++) {   
+    cv::Mat frame(BOARD_SIZE, BOARD_SIZE, CV_8UC1, cv::Scalar(0)); 
 #ifdef EN_GOD
     (game.*godFunc)();
 #endif
     game.draw(frame);
     video.write(frame); 
 
-    if(i == snapshot - 1) {
+    if(i == snapshot) {
       cv::imwrite("snapshot.bmp", frame);
     }
     game.update();
