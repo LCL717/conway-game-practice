@@ -8,14 +8,10 @@ The first command-line argument represents the duration of a cycle in millisecon
 
 The second command-line argument represents which snapshot of the life cycle the user wants to capture. The value range is between 1 and 150.
 
-There are three god functions, controlled by the third command-line argument.
-
-1. godFuncThanos: In each cycle, there is a one in ten chance of eliminating half of the cells.
-2. godFuncCreator: There is a one in a thousand chance of reviving a dead cell.
-3. godFuncReverse: copy the top-left half of the board's lives to the bottom-right.
+The third command-line argument is "broad size," which has a value range of 1 to 2048.
 
 ```
 make
-./gameoflife [wait_time] [snap_shot_frame] [god_func_mode]
+./gameoflife [wait_time] [snap_shot_frame] [board_size]
 ```
 
