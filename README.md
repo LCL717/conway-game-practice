@@ -64,23 +64,6 @@ This step has improved the execution time by approximately **2000ms**.
   
   No apparent optimization.
 
-- Then I tried removing Initial state generator `rand()`: 
-
-  `Execution time: 25390ms`
-  
-  The efficiency of random number generators can have a significant impact.
-
-  1. replace rand() with std::random_device:    
-      `Execution time: 36526ms`
-  
-      No apparent optimization.
-  
-  2. try multi-threads: 
-        
-        `Execution time: 36366ms`
-  
-        No apparent optimization.
-
 - Replace two-dimensional array with one-dimensional array: 
   
   `Execution time: 36620ms`
