@@ -15,3 +15,7 @@ make
 ./gameoflife [wait_time] [snap_shot_frame] [board_size]
 ```
 
+## Example
+```
+./gameoflife 50 100 2048
+```
