@@ -54,7 +54,7 @@ int main(int argc, char** argv)
     game.draw(frame);
     video.write(frame); 
 
-    if(i == snapshot) {
+    if(i == snapshot - 1) {
       cv::imwrite("snapshot.bmp", frame);
     }
     game.update();
